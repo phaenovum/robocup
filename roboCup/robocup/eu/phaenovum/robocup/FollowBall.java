@@ -1,20 +1,14 @@
 package eu.phaenovum.robocup;
 
-import eu.phaenovum.robocup.util.EasySensor;
-import lejos.hardware.sensor.HiTechnicIRSeekerV2;
-import lejos.robotics.navigation.OmniPilot;
-
 /**
  * 
  * @author Felix Joeken, Yael
  *
  */
-@SuppressWarnings("deprecation")
+@Deprecated
 public class FollowBall implements Runnable{
 	
 	public static Thread thread;
-	private EasySensor<HiTechnicIRSeekerV2> seeker = Ev3.getSeeker();
-	private OmniPilot omniPilot = Ev3.getOmniPilot();
 	
 	public static void startBallFollowing() {
 		
@@ -25,10 +19,10 @@ public class FollowBall implements Runnable{
 	
 	@Override
 	public void run() {
-		while (Ev3.getColorFront().getValue() != 7) {
+		//while (Ev3.getColorFront().getValue() != 7) {
 
-			omniPilot.moveStraight(300f, (int) (180 + seeker.getValue()));;
-		}
+			//omniPilot.moveStraight(300f, (int) (180 + seeker.getValue()));;
+		//}
 	}
 	
 	public static Thread getThread() {

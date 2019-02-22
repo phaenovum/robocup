@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.BaseSensor;
+import lejos.hardware.sensor.EV3GyroSensor;
+import lejos.robotics.SampleProvider;
 
 /**
  * 
@@ -17,6 +19,7 @@ public class EasySensor<T extends BaseSensor> {
 	private static final int offset = 0;
 	private BaseSensor sensor;
 	private float[] sample;
+	private final SampleProvider provider;
 	
 	/**
 	 * 
@@ -33,6 +36,23 @@ public class EasySensor<T extends BaseSensor> {
 			e.printStackTrace();
 		}
 		sample = new float[sensor.sampleSize()];
+		
+		if (sensor instanceof EV3GyroSensor) {
+			provider = ((EV3GyroSensor) sensor).getAngleMode();
+		}else {
+			provider = new SampleProvider() {
+				
+				@Override
+				public int sampleSize() {
+					return 1;
+				}
+				
+				@Override
+				public void fetchSample(float[] sample, int offset) {
+					sensor.fetchSample(sample, offset);
+				}
+			};
+		}
 	}
 	
 	/**
@@ -42,16 +62,13 @@ public class EasySensor<T extends BaseSensor> {
 	 * @return first Entry of the sample list
 	 */
 	public float getValue() {
-		try {
-			sensor.fetchSample(sample, offset);
-		}catch (NullPointerException e) {
-			e.printStackTrace();
-		}
+		provider.fetchSample(sample, offset);
 		return sample[0];
 	}
 	
-	public BaseSensor getSensor() {
-		return sensor;
+	public float getValue(int index) {
+		provider.fetchSample(sample, offset);
+		return sample[index];
 	}
 	
 	public float[] getSample() {

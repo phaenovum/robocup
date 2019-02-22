@@ -9,7 +9,6 @@ import lejos.hardware.motor.RCXMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
-import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3GyroSensor;
 import lejos.hardware.sensor.HiTechnicIRSeekerV2;
 import lejos.robotics.navigation.OmniPilot;
@@ -22,15 +21,14 @@ import lejos.robotics.navigation.OmniPilot;
 @SuppressWarnings("deprecation")
 public class Ev3 {
 	
-	public static final Port motorRPort = MotorPort.A;
-	public static final Port motorLPort = MotorPort.B;
+	public static final Port motorRPort = MotorPort.B;
+	public static final Port motorLPort = MotorPort.A;
 	public static final Port motorBPort = MotorPort.C;
 	public static final Port motorDribbblerPort = MotorPort.D;
 	
 	public static final Port ultrasonicsPort = SensorPort.S2;
-	public static final Port gyroPort = SensorPort.S3;
-	public static final Port colorFrontPort = SensorPort.S4;
-	public static final Port seekerPort = SensorPort.S1;
+	public static final Port gyroPort = SensorPort.S1;
+	public static final Port seekerPort = SensorPort.S3;
 	
 	private static EV3LargeRegulatedMotor motorR;
 	private static EV3LargeRegulatedMotor motorL;
@@ -39,7 +37,6 @@ public class Ev3 {
 	
 	private static EasySensor<HiTechnicIRSeekerV2> seeker;
 	private static EasySensor<EV3GyroSensor> gyro;
-	private static EasySensor<EV3ColorSensor> colorFront;
 	private static MindsensorsEV3SensorMUX ultrasonics;
 	
 	public static MindsensorsEV3SensorMUXPort UltraF;
@@ -60,7 +57,6 @@ public class Ev3 {
 		
 		seeker = new EasySensor<>(seekerPort, HiTechnicIRSeekerV2.class);
 		gyro = new EasySensor<>(gyroPort, EV3GyroSensor.class);
-		colorFront = new EasySensor<>(colorFrontPort, EV3ColorSensor.class);
 		ultrasonics = new MindsensorsEV3SensorMUX(ultrasonicsPort);
 		
 		UltraF = ultrasonics.C1;
@@ -87,10 +83,6 @@ public class Ev3 {
 	
 	public static EasySensor<EV3GyroSensor> getGyro() {
 		return gyro;
-	}
-	
-	public static EasySensor<EV3ColorSensor> getColorFront() {
-		return colorFront;
 	}
 	
 	public static MindsensorsEV3SensorMUX getUltrasonics() {
